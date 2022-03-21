@@ -1,7 +1,14 @@
 import React from "react";
 import "../TaskList/TaskList.css";
+import "../AddTask/AddTask.css";
+import { useState } from "react";
 const AddTask = () => {
-  return <div className="Task">AddTask</div>;
+  const [TaskText, setTaskText] = useState("");
+  return (
+    <div className="Task">
+      <input type="text" placeholder="Enter your task..." className="userTask"></input>
+    </div>
+  );
 };
 
 export default AddTask;

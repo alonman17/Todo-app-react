@@ -1,0 +1,34 @@
+.TaskList {
+  width: 100%;
+}
+
+.Task {
+  width: 100%;
+  height: 50px;
+  background-color: var(--Very-Dark-Desaturated-Blue);
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  font-size: 18px;
+  font-family: "Josefin Sans", sans-serif;
+  align-items: center;
+}
+
+.Left-side {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  justify-content: center;
+  color: var(--Very-Light-Gray);
+}
+
+.logo {
+  width: 15px;
+  height: 15px;
+  padding: 10px;
+}
+
+.checked {
+  background-image: var(--check-background);
+  border-radius: 50%;
+}

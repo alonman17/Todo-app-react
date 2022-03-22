@@ -7,7 +7,7 @@ import TaskFooter from "../TaskFooter/TaskFooter";
 import { nanoid } from "nanoid";
 const TaskList = () => {
   const [Todos, setTodos] = useState([]);
-
+  const [Filter, setFilter] = useState("");
   useEffect(() => {
     const savedTodos = JSON.parse(localStorage.getItem("react-task-app-data"));
     if (savedTodos) {
@@ -43,11 +43,28 @@ const TaskList = () => {
     const newTodos = Todos.filter((Todo) => !Todo.done);
     setTodos(newTodos);
   };
-  const filterFunc = (filter) => {};
+  let newTodos = Todos;
+  const filterFunc = (filter) => {
+    console.log(filter);
+    console.log(Filter);
+
+    switch (filter) {
+      case "Active":
+        setFilter("Active");
+        newTodos = Todos.filter((Todo) => !Todo.done);
+      case "Completed":
+        setFilter("Completed");
+        newTodos = Todos.filter((Todo) => Todo.done);
+      case "All":
+        //setFilter("All");
+        newTodos = Todos;
+    }
+    console.log(newTodos);
+  };
   return (
     <div className="TaskList">
       <AddTask addTodo={addTodo} />
-      {Todos.map((Todo) => (
+      {newTodos.map((Todo) => (
         <Task id={Todo.id} content={Todo.content} done={Todo.done} handleDelete={deleteTodo} HandleStatusChange={changeTodoStatus} />
       ))}
       ;

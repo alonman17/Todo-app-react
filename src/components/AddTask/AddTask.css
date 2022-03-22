@@ -8,3 +8,10 @@
   color: white;
   font-family: "Josefin Sans", sans-serif;
 }
+
+.addButton {
+  border: none;
+  border-radius: 15%;
+  padding: 10px;
+  background-color: rgb(255, 255, 255);
+}

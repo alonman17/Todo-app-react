@@ -1,0 +1,17 @@
+.task-footer {
+  width: 100%;
+  height: 50px;
+  background-color: var(--Very-Dark-Desaturated-Blue);
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  font-size: 18px;
+  font-family: "Josefin Sans", sans-serif;
+  align-items: center;
+  color: white;
+}
+.footer-middle {
+  display: flex;
+  width: 30%;
+  justify-content: space-between;
+}

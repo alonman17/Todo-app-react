@@ -1,19 +1,19 @@
 import React from "react";
 import "../TaskFooter/TaskFooter.css";
-const TaskFooter = ({ Todos, filterFunc, clearCompleted }) => {
+const TaskFooter = ({ Todos, clearCompleted, handleFilterChange }) => {
   const onClickFilter = (event) => {
-    filterFunc(event.target.value);
+    handleFilterChange(event.target.value);
   };
 
   return (
     <div className="task-footer">
       <div> {Todos.filter((Todo) => !Todo.done).length} items left</div>
       <div className="footer-middle">
-        <input type="radio" value="All" id="All" name="filtering" onClick={onClickFilter} />
+        <input type="radio" value="all" id="All" name="filtering" onClick={onClickFilter} />
         <label>All</label>
-        <input type="radio" value="Completed" id="All" name="filtering" onClick={onClickFilter} />
+        <input type="radio" value="completed" id="All" name="filtering" onClick={onClickFilter} />
         <label>Completed</label>
-        <input type="radio" value="Active" id="All" name="filtering" onClick={onClickFilter} />
+        <input type="radio" value="active" id="All" name="filtering" onClick={onClickFilter} />
         <label>Active</label>
       </div>
       <div onClick={clearCompleted}>Clear Completed</div>

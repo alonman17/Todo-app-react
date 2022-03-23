@@ -1,4 +1,4 @@
-.TaskList {
+.MainApp {
   width: 100%;
 }
 
@@ -31,6 +31,12 @@
   align-items: center;
   justify-content: center;
   color: var(--Very-Light-Gray);
+}
+
+.List {
+  list-style-type: none; /* Remove bullets */
+  padding: 0; /* Remove padding */
+  margin: 10px 0 px; /* Remove margins */
 }
 
 .logo {

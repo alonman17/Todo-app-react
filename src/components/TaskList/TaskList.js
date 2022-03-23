@@ -5,9 +5,11 @@ import Task from "../SingleTask/Task.js";
 import { useState, useEffect } from "react";
 import TaskFooter from "../TaskFooter/TaskFooter";
 import { nanoid } from "nanoid";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 const TaskList = () => {
   const [Todos, setTodos] = useState([]);
-  const [Filter, setFilter] = useState("");
+  const [Filter, setFilter] = useState("all");
+
   useEffect(() => {
     const savedTodos = JSON.parse(localStorage.getItem("react-task-app-data"));
     if (savedTodos) {
@@ -43,32 +45,38 @@ const TaskList = () => {
     const newTodos = Todos.filter((Todo) => !Todo.done);
     setTodos(newTodos);
   };
-  let newTodos = Todos;
-  const filterFunc = (filter) => {
-    console.log(filter);
-    console.log(Filter);
 
-    switch (filter) {
-      case "Active":
-        setFilter("Active");
-        newTodos = Todos.filter((Todo) => !Todo.done);
-      case "Completed":
-        setFilter("Completed");
-        newTodos = Todos.filter((Todo) => Todo.done);
-      case "All":
-        //setFilter("All");
-        newTodos = Todos;
-    }
-    console.log(newTodos);
+  function handleOnDragEnd(result) {
+    if (!result.destination) return;
+    const newTodos = Array.from(Todos);
+    const [reorderdTodos] = newTodos.splice(result.source.index, 1);
+    newTodos.splice(result.destination.index, 0, reorderdTodos);
+
+    setTodos(newTodos);
+  }
+
+  const changeFilterHandle = (filter) => {
+    setFilter(filter);
+    if (filter === "all") return Todos;
+    if (filter === "active") return Todos.filter((todo) => todo.done === false);
+    if (filter === "completed") return Todos.filter((todo) => todo.done === true);
   };
   return (
-    <div className="TaskList">
+    <div className="MainApp">
       <AddTask addTodo={addTodo} />
-      {newTodos.map((Todo) => (
-        <Task id={Todo.id} content={Todo.content} done={Todo.done} handleDelete={deleteTodo} HandleStatusChange={changeTodoStatus} />
-      ))}
-      ;
-      <TaskFooter Todos={Todos} filterFunc={filterFunc} clearCompleted={clearCompleted} />
+      <DragDropContext onDragEnd={handleOnDragEnd}>
+        <Droppable droppableId="dropableTasks">
+          {(provided) => (
+            <ul className="List" {...provided.droppableProps} ref={provided.innerRef}>
+              {changeFilterHandle(Filter).map((Todo, index) => (
+                <Task id={Todo.id} content={Todo.content} done={Todo.done} handleDelete={deleteTodo} HandleStatusChange={changeTodoStatus} index={index} />
+              ))}
+              {provided.placeholder}
+            </ul>
+          )}
+        </Droppable>
+      </DragDropContext>
+      <TaskFooter Todos={Todos} clearCompleted={clearCompleted} handleFilterChange={changeFilterHandle} />
     </div>
   );
 };

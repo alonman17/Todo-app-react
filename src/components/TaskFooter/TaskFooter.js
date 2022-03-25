@@ -9,7 +9,7 @@ const TaskFooter = ({ Todos, clearCompleted, handleFilterChange }) => {
     <div className="task-footer">
       <div> {Todos.filter((Todo) => !Todo.done).length} items left</div>
       <div className="footer-middle">
-        <input type="radio" value="all" id="All" name="filtering" onClick={onClickFilter} />
+        <input type="radio" value="all" id="All" name="filtering" onClick={onClickFilter} defaultChecked="checked" />
         <label>All</label>
         <input type="radio" value="completed" id="All" name="filtering" onClick={onClickFilter} />
         <label>Completed</label>

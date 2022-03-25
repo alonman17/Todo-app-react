@@ -3,6 +3,7 @@ const fastify = require("fastify")({ logger: true });
 const fastifySwagger = require("fastify-swagger");
 const swaggerOptions = require("../swagger.config.json");
 const autoload = require("fastify-autoload");
+const cors = require("cors");
 
 const PORT = process.env.PORT || 8080;
 

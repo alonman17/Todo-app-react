@@ -5,22 +5,42 @@ import Task from "../SingleTask/Task.js";
 import { useState, useEffect } from "react";
 import TaskFooter from "../TaskFooter/TaskFooter";
 import { nanoid } from "nanoid";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
+
 const TaskList = () => {
   const [Todos, setTodos] = useState([]);
   const [Filter, setFilter] = useState("all");
 
+  // useEffect(() => {
+  //   const savedTodos = JSON.parse(localStorage.getItem("react-task-app-data"));
+  //   if (savedTodos) {
+  //     setTodos(savedTodos);
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   localStorage.setItem("react-task-app-data", JSON.stringify(Todos));
+  // }, [Todos]);
+  const fetchData = async () => {
+    const response = await fetch("http://localhost:8080/api/Task/all");
+    const data = await response.json();
+    setTodos(data.Tasks);
+  };
   useEffect(() => {
-    const savedTodos = JSON.parse(localStorage.getItem("react-task-app-data"));
-    if (savedTodos) {
-      setTodos(savedTodos);
-    }
+    fetchData();
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("react-task-app-data", JSON.stringify(Todos));
-  }, [Todos]);
-
+  const addTodoDb = (object) => {
+    console.log(JSON.stringify(object));
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json", STATUS: "OK" },
+      body: JSON.stringify(object),
+    };
+    fetch("http://localhost:8080/api/Task/add", requestOptions)
+      .then((response) => response.json())
+      .then((data) => console.log(data));
+  };
   const addTodo = (content) => {
     const todo = {
       id: nanoid(),
@@ -29,6 +49,7 @@ const TaskList = () => {
     };
     const newTodos = [...Todos, todo];
     setTodos(newTodos);
+    addTodoDb(todo);
   };
   const deleteTodo = (id) => {
     const newTodos = Todos.filter((todo) => todo.id !== id);
@@ -55,6 +76,7 @@ const TaskList = () => {
     setTodos(newTodos);
   }
 
+  const handleEdit = () => {};
   const changeFilterHandle = (filter) => {
     setFilter(filter);
     if (filter === "all") return Todos;

@@ -7,6 +7,7 @@ import TaskFooter from "../TaskFooter/TaskFooter";
 import { nanoid } from "nanoid";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { deleteTodoDb, addTodoDb, updateTodoDb, clearCompletedDB } from "../../DBHandlers";
+import "../SingleTask/Task.css";
 const TaskList = () => {
   const [Todos, setTodos] = useState([]);
   const [Filter, setFilter] = useState("all");
@@ -35,10 +36,11 @@ const TaskList = () => {
     setTodos(newTodos);
     deleteTodoDb(id);
   };
-  const changeTodoStatus = (id) => {
+  const changeTodoStatus = ({ id, content, done }) => {
     const i = Todos.findIndex((Todo) => Todo.id === id);
     const newTodos = [...Todos];
-    newTodos[i].done = !Todos[i].done;
+    newTodos[i] = { id, content, done };
+    console.log(newTodos[i]);
     setTodos(newTodos);
     updateTodoDb(newTodos[i]);
   };
@@ -72,7 +74,7 @@ const TaskList = () => {
           {(provided) => (
             <ul className="List" {...provided.droppableProps} ref={provided.innerRef}>
               {changeFilterHandle(Filter).map((Todo, index) => (
-                <Task id={Todo.id} content={Todo.content} done={Todo.done} handleDelete={deleteTodo} HandleStatusChange={changeTodoStatus} index={index} />
+                <Task id={Todo.id} content={Todo.content} done={Todo.done} handleDelete={deleteTodo} HandleTaskChange={changeTodoStatus} index={index} />
               ))}
               {provided.placeholder}
             </ul>

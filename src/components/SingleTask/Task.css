@@ -1,0 +1,31 @@
+.Task {
+  width: 100%;
+  height: 50px;
+  background-color: var(--Very-Dark-Desaturated-Blue);
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  font-size: 18px;
+  font-family: "Josefin Sans", sans-serif;
+  align-items: center;
+}
+
+.Left-side {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  justify-content: center;
+  color: var(--Very-Light-Gray);
+}
+
+.task-edit {
+  width: 500px;
+
+  border: none;
+  background-color: var(--Very-Dark-Desaturated-Blue);
+  color: white;
+  font-size: 18px;
+  color: white;
+  font-family: "Josefin Sans", sans-serif;
+  border-bottom: 3px solid rgb(0, 0, 0);
+}

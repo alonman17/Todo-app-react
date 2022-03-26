@@ -3,14 +3,14 @@ const fastify = require("fastify")({ logger: true });
 const fastifySwagger = require("fastify-swagger");
 const swaggerOptions = require("../swagger.config.json");
 const autoload = require("fastify-autoload");
-const cors = require("cors");
+const cors = require("fastify-cors");
 
 const PORT = process.env.PORT || 8080;
 
 fastify.register(fastifySwagger, swaggerOptions);
 fastify.register(autoload, { dir: path.join(__dirname, "routes"), autoHooks: true, cascadeHooks: true });
 //fastify.decorateRequest("fastify", fastify);
-
+fastify.register(cors, { origin: true, methods: "POST,GET,DELETE,PATCH" });
 const startServer = async () => {
   try {
     await fastify.listen(PORT);

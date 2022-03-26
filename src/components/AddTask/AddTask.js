@@ -6,7 +6,8 @@ const AddTask = ({ addTodo }) => {
   const [TaskText, setTaskText] = useState("");
 
   const textChange = (event) => {
-    setTaskText(event.target.value);
+    if (event.key === "Enter") onAdd(event);
+    else setTaskText(event.target.value);
   };
   const onAdd = (event) => {
     if (!TaskText) {
@@ -18,10 +19,7 @@ const AddTask = ({ addTodo }) => {
   };
   return (
     <div className="Task">
-      <input type="text" placeholder="Enter your task..." className="userTask" onChange={textChange} value={TaskText}></input>
-      <button onClick={onAdd} className="addButton">
-        Add
-      </button>
+      <input type="text" placeholder="Enter your task..." className="userTask" onKeyDown={textChange} onChange={textChange} value={TaskText}></input>
     </div>
   );
 };

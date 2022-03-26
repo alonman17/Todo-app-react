@@ -6,21 +6,11 @@ import { useState, useEffect } from "react";
 import TaskFooter from "../TaskFooter/TaskFooter";
 import { nanoid } from "nanoid";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-
+import { deleteTodoDb, addTodoDb, updateTodoDb, clearCompletedDB } from "../../DBHandlers";
 const TaskList = () => {
   const [Todos, setTodos] = useState([]);
   const [Filter, setFilter] = useState("all");
 
-  // useEffect(() => {
-  //   const savedTodos = JSON.parse(localStorage.getItem("react-task-app-data"));
-  //   if (savedTodos) {
-  //     setTodos(savedTodos);
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   localStorage.setItem("react-task-app-data", JSON.stringify(Todos));
-  // }, [Todos]);
   const fetchData = async () => {
     const response = await fetch("http://localhost:8080/api/Task/all");
     const data = await response.json();
@@ -30,17 +20,6 @@ const TaskList = () => {
     fetchData();
   }, []);
 
-  const addTodoDb = (object) => {
-    console.log(JSON.stringify(object));
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json", STATUS: "OK" },
-      body: JSON.stringify(object),
-    };
-    fetch("http://localhost:8080/api/Task/add", requestOptions)
-      .then((response) => response.json())
-      .then((data) => console.log(data));
-  };
   const addTodo = (content) => {
     const todo = {
       id: nanoid(),
@@ -54,15 +33,18 @@ const TaskList = () => {
   const deleteTodo = (id) => {
     const newTodos = Todos.filter((todo) => todo.id !== id);
     setTodos(newTodos);
+    deleteTodoDb(id);
   };
   const changeTodoStatus = (id) => {
     const i = Todos.findIndex((Todo) => Todo.id === id);
     const newTodos = [...Todos];
     newTodos[i].done = !Todos[i].done;
     setTodos(newTodos);
+    updateTodoDb(newTodos[i]);
   };
 
   const clearCompleted = () => {
+    clearCompletedDB(Todos.filter((Todo) => Todo.done));
     const newTodos = Todos.filter((Todo) => !Todo.done);
     setTodos(newTodos);
   };
@@ -76,7 +58,6 @@ const TaskList = () => {
     setTodos(newTodos);
   }
 
-  const handleEdit = () => {};
   const changeFilterHandle = (filter) => {
     setFilter(filter);
     if (filter === "all") return Todos;

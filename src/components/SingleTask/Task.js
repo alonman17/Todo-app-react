@@ -1,10 +1,9 @@
 import React from "react";
 import Checked from "../../images/icon-check.svg";
 import Delete from "../../images/icon-cross.svg";
-import { useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 const Task = ({ id, content, done, handleDelete, HandleStatusChange, index, HandleEdit }) => {
-  const onDelete = (event) => {
+  const onDelete = () => {
     handleDelete(id);
   };
   const onChange = () => {
